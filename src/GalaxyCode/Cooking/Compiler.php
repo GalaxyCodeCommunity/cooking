@@ -8,10 +8,25 @@ use Galaxycode\Cooking\Template\Factory as TemplateFactory;
 class Compiler
 {
 
+    /**
+     * Recipes directory
+     *
+     * @var string
+     */
     public string $directory;
 
+    /**
+     * Recipe Factory instance
+     *
+     * @var RecipeFactory 
+     */
     public RecipeFactory $recipeFactory;
 
+    /**
+     * Template factory instance
+     *
+     * @var TemplateFactory
+     */
     public TemplateFactory $templateFactory;
 
     public function __construct(string $directory)
@@ -22,11 +37,22 @@ class Compiler
 
     }
 
-    public function compile(string $dist)
+    /**
+     * Compiles all recipes and main page
+     *
+     * @param string $dist
+     * @return void
+     */
+    public function compile(string $dist): void
     {
         $recipes = [];
         foreach (scandir($this->directory) as $file) {
-            // TODO recursive compilation
+            /**
+     * Compiles all recipes and main page
+     *
+     * @param string $dist
+     * @return void
+     */
             $recipe = $this->recipeFactory->make($file)->compile('recipe.php');
             $recipes[] = $recipe;
             file_put_contents($dist . DIRECTORY_SEPARATOR . 'recipe' . DIRECTORY_SEPARATOR . $recipe->name . '.html', $recipe->compiled);
