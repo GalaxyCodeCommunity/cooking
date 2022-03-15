@@ -1,6 +1,6 @@
 <?php
 
-namespace Galaxycode\Cooking\Template;
+namespace GalaxyCode\Cooking\Template;
 
 class Template
 {
@@ -33,7 +33,7 @@ class Template
     {
         extract($this->data);
         ob_start();
-        require $this->raw;
+        eval('?>' . $this->raw);
         return ob_get_clean();
     }
 }

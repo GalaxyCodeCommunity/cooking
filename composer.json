@@ -4,7 +4,15 @@
     },
     "autoload": {
         "psr-4": {
-            "GalaxyCode": "src/GalaxyCode"
+            "GalaxyCode\\": "src/GalaxyCode"
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.21"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }

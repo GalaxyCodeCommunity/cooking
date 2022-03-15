@@ -1,8 +1,9 @@
 <?php
 
-namespace Galaxycode\Cooking\Recipe;
+namespace GalaxyCode\Cooking\Recipe;
 
-use Galaxycode\Cooking\Template\Factory as TemplateFactory;
+use Exception;
+use GalaxyCode\Cooking\Template\Factory as TemplateFactory;
 use Parsedown;
 
 class Factory
@@ -37,15 +38,16 @@ class Factory
     }
 
     /**
-     * Creates new Recipe
-     *
-     * @param mixed $file
-     * @return Recipe
+     * Creates new Recipe from markdown file 
      */
-    public function make($file): Recipe
+    public function make($recipe_file): Recipe
     {
-        $name = explode('.md', $file)[0];
-        $parsed = $this->markdown->parse(file_get_contents($this->base . DIRECTORY_SEPARATOR . $file));
+        $name = explode('.md', $recipe_file)[0];
+        $path = $this->base . DIRECTORY_SEPARATOR . trim($recipe_file, DIRECTORY_SEPARATOR);
+        if (!is_file($path)) {
+            throw new Exception("Recipe template {$path} does not exist");
+        }
+        $parsed = $this->markdown->parse(file_get_contents($path));
         return new Recipe($name, $parsed, $this->templateFactory);
     }
 }

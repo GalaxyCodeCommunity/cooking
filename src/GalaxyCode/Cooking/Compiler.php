@@ -1,9 +1,9 @@
 <?php
 
-namespace Galaxycode\Cooking;
+namespace GalaxyCode\Cooking;
 
-use Galaxycode\Cooking\Recipe\Factory as RecipeFactory;
-use Galaxycode\Cooking\Template\Factory as TemplateFactory;
+use GalaxyCode\Cooking\Recipe\Factory as RecipeFactory;
+use GalaxyCode\Cooking\Template\Factory as TemplateFactory;
 
 class Compiler
 {
@@ -47,15 +47,9 @@ class Compiler
     {
         $recipes = [];
         foreach (scandir($this->directory) as $file) {
-            /**
-     * Compiles all recipes and main page
-     *
-     * @param string $dist
-     * @return void
-     */
-            $recipe = $this->recipeFactory->make($file)->compile('recipe.php');
+            $recipe = $this->recipeFactory->make($file);
             $recipes[] = $recipe;
-            file_put_contents($dist . DIRECTORY_SEPARATOR . 'recipe' . DIRECTORY_SEPARATOR . $recipe->name . '.html', $recipe->compiled);
+            file_put_contents($dist . DIRECTORY_SEPARATOR . 'recipe' . DIRECTORY_SEPARATOR . $recipe->name . '.html', $recipe->compile('recipe.php'));
         }
 
         $welcome = $this->templateFactory->make('home.php', compact($recipes));

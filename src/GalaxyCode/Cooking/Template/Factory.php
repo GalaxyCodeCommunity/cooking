@@ -1,7 +1,8 @@
 <?php
 
-namespace Galaxycode\Cooking\Template;
+namespace GalaxyCode\Cooking\Template;
 
+use Exception;
 
 class Factory
 {
@@ -26,6 +27,10 @@ class Factory
      */
     public function make(string $file, array $data): Template
     {
-        return new Template(file_get_contents($this->dir . DIRECTORY_SEPARATOR . $file), $data);
+        $path = $this->dir . DIRECTORY_SEPARATOR . trim($file, DIRECTORY_SEPARATOR);
+        if (!is_file($path)) {
+            throw new Exception("File {$path} does not exist");
+        }
+        return new Template(trim(file_get_contents($path)), $data);
     }
 }
